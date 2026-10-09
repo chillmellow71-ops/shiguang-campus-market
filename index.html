@@ -1,0 +1,8 @@
+{% extends 'base.html' %}{% block content %}
+<section class="hero"><div><p class="eyebrow">CAMPUS MARKET</p><h1>让闲置流动起来</h1><p>教材、数码、生活用品，安全地在同学之间交换。</p></div><div class="hero-icon">♻</div></section>
+<form class="search" method="get"><input name="keyword" value="{{ keyword }}" placeholder="搜索商品名称或描述"><button>搜索</button></form>
+<div class="categories-wrap"><div class="categories"><a class="{{ 'active' if category == '全部' else '' }}" href="{{ url_for('index') }}">全部</a>{% for c in categories %}<a class="{{ 'active' if category == c else '' }}" href="{{ url_for('index', category=c, keyword=keyword) }}">{{ c }}</a>{% endfor %}</div>
+<div class="section-title"><h2>正在出售</h2><span>共 {{ products|length }} 件商品</span></div>
+<div class="grid">{% for p in products %}<a class="card" href="{{ url_for('product_detail', product_id=p['id']) }}"><img src="{{ p['image'] }}?v={{ image_version }}" alt="{{ p['title'] }}"><div class="card-body"><span class="tag">{{ p['category'] }}</span><h3>{{ p['title'] }}</h3><p class="desc">{{ p['description'] or '暂无描述' }}</p><div class="card-bottom"><strong>¥{{ '%.2f'|format(p['price']) }}</strong><small>点击查看详情</small></div></div></a>{% else %}<div class="empty">没有找到相关商品，试试其他关键词吧。</div>{% endfor %}</div>
+{% endblock %}
+
